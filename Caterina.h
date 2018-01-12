@@ -87,6 +87,9 @@
 		#define L_LED_ON()		PORTC |= (1<<7)
 		#define L_LED_TOGGLE()	PORTC ^= (1<<7)
 #else
+
+
+/* Non Zumobot
 // Micro, Leonardo, etc.
 		#define LED_SETUP()		DDRC |= (1<<7); DDRB |= (1<<0); DDRD |= (1<<5);
                 #if DEVICE_PID == 0x0037	// polarity of the RX and TX LEDs is reversed on the Micro
@@ -101,6 +104,43 @@
 			#define RX_LED_ON()		PORTB &= ~(1<<0)
 		#endif
 #endif
+*/
+
+
+
+/* Mizzou ZumoBot board definition and Development/Compention mode extension
+    Modified and Written by: by Grant Hilgert
+                                University of Missouri - Columbia
+                                January 2018
+ */
+
+//Mizou Zumobo - Release 1.05
+        #define LED_SETUP()        DDRC |= (1<<7); DDRB |= (1<<0); DDRD |= (1<<5);
+
+            //TODO
+            #define TX_LED_OFF()    PORTD |= (1<<5)
+            #define TX_LED_ON()     PORTD &= ~(1<<5)
+            #define RX_LED_OFF()    PORTB |= (1<<0)
+            #define RX_LED_ON()     PORTB &= ~(1<<0)
+        
+            #define RED_LED_OFF()   PORTD |= (1<<5)
+            #define RED_LED_ON()    PORTD &= ~(1<<5)
+            #define GREEN_LED_OFF() PORTB |= (1<<0)
+            #define GREEN_LED_ON()  PORTB &= ~(1<<0)
+
+#endif
+
+
+void beginMatch(void);        //Begin Match
+void endMatch(void);          //End Match
+
+
+int getZumoMode(void);
+
+
+
+
+//***End Mizzou ZumoBot Definitons and Extensions***
 
 	/* Type Defines: */
 		/** Type define for a non-returning pointer to the start of the loaded application in flash memory. */

@@ -75,6 +75,39 @@ volatile uint16_t *const bootKeyPtr = (volatile uint16_t *)0x0800;
   volatile uint16_t *const doubleclickKeyPtr = (volatile uint16_t *)0x0810;
 #endif
 
+/* Mizzou ZumoBot board definition and Development/Compention mode extension
+        Modified and Written by: by Grant Hilgert
+                                    University of Missouri - Columbia
+                                    January 2018
+ */
+
+static bool zumoDev = false; //Zumo Development Mode
+
+void beginMatch(void){
+        RED_LED_ON();
+   
+    
+    
+    
+}
+
+void endMatch(void){
+    
+    
+}
+
+int getZumoMode(void){
+    
+    
+    return 1;
+}
+
+
+
+
+
+
+
 void StartSketch(void)
 {
 	cli();
@@ -171,19 +204,31 @@ int main(void)
 	{
 		CDC_Task();
 		USB_USBTask();
-		/* Time out and start the sketch if one is present */
+		
+        
+        /* Time out and start the sketch if one is present */
 		if (Timeout > TIMEOUT_PERIOD)
 			RunBootloader = false;
 
 		LEDPulse();
-		
+        
 	}
 
 	/* Disconnect from the host - USB interface will be reset later along with the AVR */
 	USB_Detach();
 
-	/* Jump to beginning of application space to run the sketch - do not reset */	
-	StartSketch();
+	
+                                //Returns value of control pin
+                                //If pin is high, the device enters devlopemtn mode
+    if(getZumoMode() == 1){     //Begin Sketch Immediatly
+                                //Jump to beginning of application space to run the sketch
+                                //do not reset
+            StartSketch();
+    }
+    else{                       //Enter Competiton Mode
+        beginMatch();
+    }
+    
 }
 
 /** Configures all hardware required for the bootloader. */
